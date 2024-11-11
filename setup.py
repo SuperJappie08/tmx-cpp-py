@@ -126,15 +126,15 @@ class CMakeBuild(build_ext):
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
-    name="cmake_example",
+    name="tmx_cpp_py",
     version="0.0.1",
-    author="Dean Moldovan",
-    author_email="dean0x7d@gmail.com",
-    description="A test project using pybind11 and CMake",
+    author="Jasper van Brakel",
+    author_email="36795178+SuperJappie08@users.noreply.github.com",
+    description="Python Bindings for tmx-cpp with PyBind11",
     long_description="",
     ext_modules=[CMakeExtension("cmake_example")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     extras_require={"test": ["pytest>=6.0"]},
-    python_requires=">=3.7",
+    python_requires=">=3.8",
 )

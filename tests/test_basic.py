@@ -1,4 +1,4 @@
-import cmake_example as m
+import tmx_cpp_py as m
 
 
 def test_main():

@@ -3,18 +3,16 @@
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
-int add(int i, int j) {
-    return i + j;
-}
+int add(int i, int j) { return i + j; }
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(cmake_example, m) {
-    m.doc() = R"pbdoc(
+PYBIND11_MODULE(tmx_cpp_py, m) {
+  m.doc() = R"pbdoc(
         Pybind11 example plugin
         -----------------------
 
-        .. currentmodule:: cmake_example
+        .. currentmodule:: tmx_cpp_py
 
         .. autosummary::
            :toctree: _generate
@@ -23,21 +21,27 @@ PYBIND11_MODULE(cmake_example, m) {
            subtract
     )pbdoc";
 
-    m.def("add", &add, R"pbdoc(
+  m.def("add", &add, R"pbdoc(
         Add two numbers
 
         Some other explanation about the add function.
     )pbdoc");
 
-    m.def("subtract", [](int i, int j) { return i - j; }, R"pbdoc(
+  m.def(
+      "subtract", [](int i, int j) { return i - j; }, R"pbdoc(
         Subtract two numbers
 
         Some other explanation about the subtract function.
     )pbdoc");
 
+  m.def(
+      "yes", []() { return true; }, R"pbdoc(
+        TEXT
+    )pbdoc");
+
 #ifdef VERSION_INFO
-    m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
+  m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 #else
-    m.attr("__version__") = "dev";
+  m.attr("__version__") = "dev";
 #endif
 }
