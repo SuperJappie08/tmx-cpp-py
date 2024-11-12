@@ -132,7 +132,7 @@ setup(
     author_email="36795178+SuperJappie08@users.noreply.github.com",
     description="Python Bindings for tmx-cpp with PyBind11",
     long_description="",
-    ext_modules=[CMakeExtension("cmake_example")],
+    ext_modules=[CMakeExtension("tmx_cpp_py")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     extras_require={"test": ["pytest>=6.0"]},
