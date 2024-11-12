@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(tmx_cpp_py)
 
-find_package(Boost REQUIRED COMPONENTS system thread)
+# find_package(Boost REQUIRED COMPONENTS system thread)
 
 add_subdirectory(libs/tmx-cpp)
 
