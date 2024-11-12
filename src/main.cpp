@@ -19,7 +19,8 @@
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
-// std::shared_ptr<tmx_cpp::TMX> create_tmx(const std::function<void()> &stop_func,
+// std::shared_ptr<tmx_cpp::TMX> create_tmx(const std::function<void()>
+// &stop_func,
 //                                          std::string port = "/dev/ttyACM0") {
 //   return std::make_shared<tmx_cpp::TMX>(stop_func, port);
 // }
@@ -65,7 +66,7 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
   py::class_<tmx_cpp::ADXL345_module, std::shared_ptr<tmx_cpp::ADXL345_module>,
              tmx_cpp::Sensor_type>(m, "ADXL345_Sensor")
       .def(py::init<uint8_t, uint8_t, tmx_cpp::ADXL345_cb_t>());
-      // .def("send_module", &tmx_cpp::ADXL345_module::send_module);
+  // .def("send_module", &tmx_cpp::ADXL345_module::send_module);
 
   // ADDR 0x40
   py::class_<tmx_cpp::INA226_module, std::shared_ptr<tmx_cpp::INA226_module>,
