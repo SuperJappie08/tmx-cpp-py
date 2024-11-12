@@ -3,6 +3,6 @@
     url = https://github.com/pybind/pybind11.git
     branch = v2.13
 [submodule "libs/tmx-cpp"]
-	path = libs/tmx-cpp
-	url = https://github.com/SuperJappie08/tmx-cpp.git
-	branch = build-improvements
+    path = libs/tmx-cpp
+    url = https://github.com/SuperJappie08/tmx-cpp.git
+    branch = build-improvements

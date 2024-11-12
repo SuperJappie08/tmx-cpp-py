@@ -11,11 +11,14 @@ set_target_properties(async_serial PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 add_subdirectory(pybind11)
 
-include_directories(include/ libs/tmx-cpp/include/ libs/tmx-cpp/libs/async_serial/include/ pybind11/include/)
+# set(CMAKE_CXX_STANDARD 11)
+
+include_directories(include/ libs/tmx-cpp/include/
+                    libs/tmx-cpp/libs/async_serial/include/ pybind11/include/)
 
 pybind11_add_module(tmx_cpp_py src/main.cpp)
 
-target_link_libraries(tmx_cpp_py PRIVATE Boost::system tmx_cpp)
+target_link_libraries(tmx_cpp_py PRIVATE tmx_cpp)
 
 # EXAMPLE_VERSION_INFO is defined by setup.py and passed into the C++ code as a
 # define (VERSION_INFO) here.
