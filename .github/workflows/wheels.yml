@@ -75,7 +75,7 @@ jobs:
           tar xf boost_1_74_0.tar.bz2 &&
           cd boost_1_74_0 && mkdir lib && cd tools/build && ./bootstrap.sh && cd - && ./tools/build/b2 install  &&
           cd {package}
-        CIBW_TEST_COMMAND: python -m pytest --rootdir={package} {package}
+        CIBW_TEST_COMMAND: python -m pytest --rootdir={package} {package} --ignore-glob=pybind11/** --ignore-glob=boost/**
         CIBW_TEST_REQUIRES: pytest
         CIBW_ENVIRONMENT_LINUX: BOOST_ROOT=/boost
         CIBW_ENVIRONMENT_PASS_LINUX: BOOST_ROOT

@@ -28,8 +28,8 @@ addopts = [
   "--showlocals",
   "--strict-markers",
   "--strict-config",
-  "--ignore={project}/boost",
-  "--ignore={project}/pybind11",
+  "--ignore-glob=boost/**",
+  "--ignore-glob=pybind11/**",
 ]
 xfail_strict = true
 filterwarnings = [
@@ -39,7 +39,7 @@ filterwarnings = [
 testpaths = ["tests"]
 
 [tool.cibuildwheel]
-test-command = "pytest {project}/tests"
+test-command = "pytest {project}/tests --ignore-glob=pybind11/** --ignore-glob=boost/**"
 test-extras = ["test"]
 test-skip = ["*universal2:arm64"]
 # Setuptools bug causes collision between pypy and cpython artifacts
