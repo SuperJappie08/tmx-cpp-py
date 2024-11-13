@@ -59,21 +59,21 @@ jobs:
       env:
         CIBW_ARCHS_MACOS: auto universal2
         CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
-        CIBW_ENVIRONMENT_MACOS: BOOST_ROOT=/boost
+        CIBW_ENVIRONMENT_MACOS: BOOST_ROOT={package}/boost
         CIBW_BEFORE_BUILD_LINUX: echo $BOOST_ROOT
         CIBW_BEFORE_ALL_LINUX: >
           yum install -y wget &&
           cd / &&  mkdir boost && cd boost &&
           wget --no-check-certificate 'https://sourceforge.net/projects/boost/files/boost/1.74.0/boost_1_74_0.tar.bz2' && 
           tar xf boost_1_74_0.tar.bz2 &&
-          ./bootstrap.sh && ./b2 &&
+          cd tools/build && ./bootstrap.sh && ./b2 && cd - &&
           cd {package}
         CIBW_BEFORE_ALL_MACOS: >
           brew install wget &&
-          cd / &&  mkdir boost && cd boost &&
+          cd {package} &&  mkdir boost && cd boost &&
           wget --no-check-certificate 'https://sourceforge.net/projects/boost/files/boost/1.74.0/boost_1_74_0.tar.bz2' && 
           tar xf boost_1_74_0.tar.bz2 &&
-          ./bootstrap.sh && ./b2 &&
+          cd tools/build && ./bootstrap.sh && ./b2 && cd - &&
           cd {package}
         CIBW_TEST_COMMAND: python -m pytest --rootdir={package} {package}
         CIBW_TEST_REQUIRES: pytest
