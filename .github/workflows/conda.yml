@@ -38,6 +38,10 @@ jobs:
       - name: Prepare
         run: conda install conda-build conda-verify pytest toml
 
+      - name: Install Extra Deps
+        if: ${{ runner.os == "Linux"}}
+        run: apt install -y libboost-all-dev
+
       - name: Build
         run: conda build conda.recipe
 
