@@ -39,17 +39,18 @@ test-skip = ["*universal2:arm64"]
 before-build = "rm -rf {project}/build"
 
 
-# Build using the manylinux_2_24 image
-manylinux-x86_64-image = "manylinux_2_24"
-manylinux-i686-image = "manylinux_2_24"
-manylinux-aarch64-image = "manylinux_2_24"
-manylinux-ppc64le-image = "manylinux_2_24"
-manylinux-s390x-image = "manylinux_2_24"
-manylinux-pypy_x86_64-image = "manylinux_2_24"
-manylinux-pypy_i686-image = "manylinux_2_24"
+# Build using the manylinux_2_28 image
+manylinux-x86_64-image = "manylinux_2_28"
+manylinux-i686-image = "manylinux_2_28"
+manylinux-aarch64-image = "manylinux_2_28"
+manylinux-ppc64le-image = "manylinux_2_28"
+manylinux-s390x-image = "manylinux_2_28"
+manylinux-pypy_x86_64-image = "manylinux_2_28"
+manylinux-pypy_i686-image = "manylinux_2_28"
+
 # Install system library
 [tool.cibuildwheel.linux]
-before-all = "apt-get install -y libboost-all-dev"
+before-all = "dnf install boost-devel"
 
 [tool.ruff]
 target-version = "py38"
