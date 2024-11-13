@@ -1,10 +1,10 @@
 [build-system]
 requires = [
-    "setuptools>=42",
-    "wheel",
-    "ninja",
-    "cmake>=3.12",
-    # "boost"
+  "setuptools>=42",
+  "wheel",
+  "ninja",
+  "cmake>=3.12",
+  # "boost"
 ]
 build-backend = "setuptools.build_meta"
 
@@ -23,11 +23,18 @@ ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config"]
+addopts = [
+  "-ra",
+  "--showlocals",
+  "--strict-markers",
+  "--strict-config",
+  "--ignore={project}/boost",
+  "--ignore={project}/pybind11",
+]
 xfail_strict = true
 filterwarnings = [
-    "error",
-    "ignore:(ast.Str|Attribute s|ast.NameConstant|ast.Num) is deprecated:DeprecationWarning:_pytest",
+  "error",
+  "ignore:(ast.Str|Attribute s|ast.NameConstant|ast.Num) is deprecated:DeprecationWarning:_pytest",
 ]
 testpaths = ["tests"]
 
@@ -58,9 +65,9 @@ target-version = "py38"
 
 [tool.ruff.lint]
 extend-select = [
-  "B",    # flake8-bugbear
-  "I",    # isort
-  "PGH",  # pygrep-hooks
-  "RUF",  # Ruff-specific
-  "UP",   # pyupgrade
+  "B",   # flake8-bugbear
+  "I",   # isort
+  "PGH", # pygrep-hooks
+  "RUF", # Ruff-specific
+  "UP",  # pyupgrade
 ]
