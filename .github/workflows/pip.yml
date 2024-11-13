@@ -29,26 +29,26 @@ jobs:
     - name: Add requirements
       run: python -m pip install --upgrade wheel setuptools
 
-    - name: Install Dependencies (Ubuntu)
-      if: ${{ matrix.platform == 'ubuntu-latest' }}
+    - name: Install Dependencies (Linux)
+      if: ${{ runner.os == 'Linux' }}
       run: |
         sudo apt-get update
         sudo apt-get install libboost-all-dev
 
     - name: Install Dependencies (MacOS)
-      if: ${{ matrix.platform == 'macos-13' }}
+      if: ${{ runner.os == 'macOS' }}
       run: |
         brew install boost
 
     - name: Install boost (Windows)
       uses: MarkusJx/install-boost@v2.4.5
-      if: ${{ matrix.platform == 'windows-latest' }}
+      if: ${{ runner.os == 'Windows' }}
       id: install-boost
       with:
           # REQUIRED: Specify the required boost version
           # A list of supported versions can be found here:
           # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
-          boost_version: 1.73.0
+          boost_version: 1.74.0
 
     # - name: Setup Boost (Windows)
     #   if: ${{ matrix.platform }} == windows-latest
