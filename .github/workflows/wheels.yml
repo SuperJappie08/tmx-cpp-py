@@ -66,14 +66,14 @@ jobs:
           cd / &&  mkdir boost && cd boost &&
           wget --no-check-certificate 'https://sourceforge.net/projects/boost/files/boost/1.74.0/boost_1_74_0.tar.bz2' &&
           tar xf boost_1_74_0.tar.bz2 &&
-          cd boost_1_74_0 && mkdir lib &&cd tools/build && ./bootstrap.sh && ./b2 install && cd - &&
+          cd boost_1_74_0 && mkdir lib && cd tools/build && ./bootstrap.sh && cd - && ./b2/tools/build install &&
           cd {package}
         CIBW_BEFORE_ALL_MACOS: >
           brew install wget &&
           cd {package} &&  mkdir boost && cd boost &&
           wget --no-check-certificate 'https://sourceforge.net/projects/boost/files/boost/1.74.0/boost_1_74_0.tar.bz2' &&
           tar xf boost_1_74_0.tar.bz2 &&
-          cd boost_1_74_0 && mkdir lib &&cd tools/build && ./bootstrap.sh && ./b2 install && cd - &&
+          cd boost_1_74_0 && mkdir lib && cd tools/build && ./bootstrap.sh && cd - && ./b2/tools/build install  &&
           cd {package}
         CIBW_TEST_COMMAND: python -m pytest --rootdir={package} {package}
         CIBW_TEST_REQUIRES: pytest
