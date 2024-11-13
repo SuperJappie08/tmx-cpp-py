@@ -38,9 +38,14 @@ jobs:
       - name: Prepare
         run: conda install conda-build conda-verify pytest toml
 
-      - name: Install Extra Deps
+      - name: Install Extra Deps (Ubuntu)
         if: ${{ runner.os == 'Linux' }}
-        run: apt install -y libboost-all-dev
+        run: sudo apt install -y libboost-all-dev
+
+      # - name: Install Extra Deps (Windows)
+      #   if: ${{ runner.os == 'Windows' }}
+      #   run: |
+      #     nuget install boost -Version 1.74.0
 
       - name: Build
         run: conda build conda.recipe
