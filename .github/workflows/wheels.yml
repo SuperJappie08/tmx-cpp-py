@@ -58,6 +58,7 @@ jobs:
     - uses: pypa/cibuildwheel@v2.21.3
       env:
         CIBW_ARCHS_MACOS: auto universal2
+        CIBW_ARCHS_LINUX: auto64 aarch64 ppc64le s390x
         CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
         CIBW_ENVIRONMENT_MACOS: BOOST_ROOT={package}/boost
         CIBW_BEFORE_BUILD_LINUX: echo $BOOST_ROOT

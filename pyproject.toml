@@ -61,12 +61,12 @@ before-build = "rm -rf {project}/build"
 
 # Build using the manylinux_2_28 image
 manylinux-x86_64-image = "manylinux_2_28"
-manylinux-i686-image = "manylinux_2_28"
+# manylinux-i686-image = "manylinux_2_28"
 manylinux-aarch64-image = "manylinux_2_28"
 manylinux-ppc64le-image = "manylinux_2_28"
 manylinux-s390x-image = "manylinux_2_28"
 manylinux-pypy_x86_64-image = "manylinux_2_28"
-manylinux-pypy_i686-image = "manylinux_2_28"
+# manylinux-pypy_i686-image = "manylinux_2_28"
 manylinux-pypy_aarch64-image = "manylinux_2_28"
 
 # # Install system library
