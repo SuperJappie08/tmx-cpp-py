@@ -50,7 +50,7 @@ manylinux-pypy_i686-image = "manylinux_2_28"
 
 # Install system library
 [tool.cibuildwheel.linux]
-before-all = "dnf install boost-devel"
+before-all = "dnf install -y boost-devel"
 
 [tool.ruff]
 target-version = "py38"

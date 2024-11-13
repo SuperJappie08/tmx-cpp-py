@@ -28,10 +28,10 @@ jobs:
           submodules: true
 
       - name: Get conda
-        uses: conda-incubator/setup-miniconda@v3.0.4
+        uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: ${{ matrix.python-version }}
-          channels: conda-forge default
+          channels: conda-forge,default
           channel-priority: strict
 
       # Currently conda-build requires the dead package "toml" but doesn't declare it
