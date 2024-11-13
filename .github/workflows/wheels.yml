@@ -44,6 +44,12 @@ jobs:
       with:
         submodules: true
 
+    - name: Set up QEMU
+      if: runner.os == 'Linux'
+      uses: docker/setup-qemu-action@v3
+      with:
+        platforms: all
+
     - name: Install boost
       uses: MarkusJx/install-boost@v2.4.5
       if: ${{ runner.os == 'Windows' }} # || runner.os == 'macOS'
@@ -65,16 +71,16 @@ jobs:
         CIBW_BEFORE_ALL_LINUX: >
           dnf -y install wget &&
           cd / &&  mkdir boost && cd boost &&
-          wget --no-check-certificate 'https://sourceforge.net/projects/boost/files/boost/1.74.0/boost_1_74_0.tar.bz2' &&
+          wget --no-check-certificate 'https://archives.boost.io/release/1.74.0/source/boost_1_74_0.tar.bz2' &&
           tar xf boost_1_74_0.tar.bz2 &&
-          cd boost_1_74_0 && mkdir lib && cd tools/build && ./bootstrap.sh && cd - && ./tools/build/b2 install &&
+          cd boost_1_74_0 && ./bootstrap.sh --without-libraries=python,mpi,graph,graph_parallel  && ./b2 install --without-python --without-mpi --without-graph --without-graph_parallel &&
           cd {package}
         CIBW_BEFORE_ALL_MACOS: >
           brew install wget &&
           cd {package} &&  mkdir boost && cd boost &&
-          wget --no-check-certificate 'https://sourceforge.net/projects/boost/files/boost/1.74.0/boost_1_74_0.tar.bz2' &&
+          wget --no-check-certificate 'https://archives.boost.io/release/1.74.0/source/boost_1_74_0.tar.bz2' &&
           tar xf boost_1_74_0.tar.bz2 &&
-          cd boost_1_74_0 && mkdir lib && cd tools/build && ./bootstrap.sh && cd - && ./tools/build/b2 install  &&
+          cd boost_1_74_0 && ./bootstrap.sh --without-libraries=python,mpi,graph,graph_parallel && ./b2 install --without-python --without-mpi --without-graph --without-graph_parallel &&
           cd {package}
         CIBW_TEST_COMMAND: python -m pytest --rootdir={package} {package}/tests
         CIBW_TEST_REQUIRES: pytest
