@@ -5,4 +5,4 @@
 [submodule "libs/tmx-cpp"]
     path = libs/tmx-cpp
     url = https://github.com/SuperJappie08/tmx-cpp.git
-    branch = build-improvements
+    branch = python-ci-fix
