@@ -46,7 +46,7 @@ jobs:
 
     - name: Install boost
       uses: MarkusJx/install-boost@v2.4.5
-      if: ${{ runner.os == 'Windows' || runner.os == 'macOS' }}
+      if: ${{ runner.os == 'Windows' }} # || runner.os == 'macOS'
       id: install-boost
       with:
           # REQUIRED: Specify the required boost version
@@ -59,7 +59,24 @@ jobs:
       env:
         CIBW_ARCHS_MACOS: auto universal2
         CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
-        CIBW_ENVIRONMENT_MACOS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
+        CIBW_ENVIRONMENT_MACOS: BOOST_ROOT=/boost
+        CIBW_BEFORE_BUILD_LINUX: echo $BOOST_ROOT
+        CIBW_BEFORE_ALL_LINUX: >
+          yum install -y wget &&
+          cd / &&  mkdir boost && cd boost &&
+          wget --no-check-certificate 'https://sourceforge.net/projects/boost/files/boost/1.74.0/boost_1_74_0.tar.bz2' && 
+          tar xf boost_1_74_0.tar.bz2 &&
+          cd {package}
+        CIBW_BEFORE_ALL_MACOS: >
+          brew install -y wget &&
+          cd / &&  mkdir boost && cd boost &&
+          wget --no-check-certificate 'https://sourceforge.net/projects/boost/files/boost/1.74.0/boost_1_74_0.tar.bz2' && 
+          tar xf boost_1_74_0.tar.bz2 &&
+          cd {package}
+        CIBW_TEST_COMMAND: python -m pytest --rootdir={package} {package}
+        CIBW_TEST_REQUIRES: pytest
+        CIBW_ENVIRONMENT_LINUX: BOOST_ROOT=/boost
+        CIBW_ENVIRONMENT_PASS_LINUX: BOOST_ROOT
 
     - name: Verify clean directory
       run: git diff --exit-code
