@@ -23,13 +23,26 @@ ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 minversion = "6.0"
+norecursedirs = [
+  '*.egg',
+  '.*',
+  '_darcs',
+  'build',
+  'CVS',
+  'dist',
+  'node_modules',
+  'venv',
+  '{arch}',
+  'pybind11',
+  'boost'
+]
 addopts = [
   "-ra",
   "--showlocals",
   "--strict-markers",
   "--strict-config",
-  "--ignore-glob=boost/**",
-  "--ignore-glob=pybind11/**",
+  # "--ignore-glob=boost/**",
+  # "--ignore-glob=pybind11/**",
 ]
 xfail_strict = true
 filterwarnings = [
@@ -39,7 +52,7 @@ filterwarnings = [
 testpaths = ["tests"]
 
 [tool.cibuildwheel]
-test-command = "pytest {project}/tests --ignore-glob=pybind11/** --ignore-glob=boost/**"
+test-command = "pytest {project}/tests"
 test-extras = ["test"]
 test-skip = ["*universal2:arm64"]
 # Setuptools bug causes collision between pypy and cpython artifacts
