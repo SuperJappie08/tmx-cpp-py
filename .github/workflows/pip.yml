@@ -40,15 +40,20 @@ jobs:
       run: |
         brew install boost
 
-    - name: Install boost (Windows)
-      uses: MarkusJx/install-boost@v2.4.5
+    - name: Install Dependencies (Windows)
       if: ${{ runner.os == 'Windows' }}
-      id: install-boost
-      with:
-          # REQUIRED: Specify the required boost version
-          # A list of supported versions can be found here:
-          # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
-          boost_version: 1.74.0
+      run: |
+        nuget install boost -Version 1.74.0
+
+    # - name: Install boost (Windows)
+    #   uses: MarkusJx/install-boost@v2.4.5
+    #   if: ${{ runner.os == 'Windows' }}
+    #   id: install-boost
+    #   with:
+    #       # REQUIRED: Specify the required boost version
+    #       # A list of supported versions can be found here:
+    #       # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
+    #       boost_version: 1.74.0
 
     # - name: Setup Boost (Windows)
     #   if: ${{ matrix.platform }} == windows-latest
