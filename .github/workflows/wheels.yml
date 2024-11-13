@@ -60,7 +60,6 @@ jobs:
         CIBW_ARCHS_MACOS: auto universal2
         CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
         CIBW_ENVIRONMENT_MACOS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
-        CIBW_BEFORE_ALL_LINUX: yum install -y boost-devel
 
     - name: Verify clean directory
       run: git diff --exit-code
