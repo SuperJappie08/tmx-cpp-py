@@ -78,8 +78,7 @@ jobs:
         CIBW_ARCHS_MACOS: ${{ matrix.arch }}
         CIBW_ARCHS_LINUX: ${{ matrix.arch }}
         CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
-        CIBW_ENVIRONMENT_MACOS: BOOST_ROOT={package}/boost
-        # Not required anymore: MACOSX_DEPLOYMENT_TARGET="10.15"
+        CIBW_ENVIRONMENT_MACOS: BOOST_ROOT={package}/boost MACOSX_DEPLOYMENT_TARGET="10.15"
         CIBW_BEFORE_BUILD_LINUX: echo $BOOST_ROOT
         CIBW_BEFORE_ALL_MACOS: >
           brew install wget &&
