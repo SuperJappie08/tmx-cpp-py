@@ -38,7 +38,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-13, macos-14]
-        arch: [x86_64]
+        arch: [native]
         include:
           - os: ubuntu-latest
             arch: aarch64
@@ -46,11 +46,6 @@ jobs:
             arch: ppc64le
           - os: ubuntu-latest
             arch: s390x
-          - os: macos-14
-            arch: native
-        exclude:
-          - os: macos-14
-            arch: x84_64
 
     steps:
     - uses: actions/checkout@v4
@@ -58,10 +53,14 @@ jobs:
         submodules: true
 
     - name: Set up QEMU
-      if: runner.os == 'Linux' && matrix.arch != 'x86_64'
+      if: runner.os == 'Linux' && matrix.arch != 'native'
       uses: docker/setup-qemu-action@v3
       with:
         platforms: all
+
+    - name: MacOS permissions fix
+      if: matrix.os == 'macos-14'
+      run: sudo chown runner:admin /usr/local/share
 
     - name: Install boost
       uses: MarkusJx/install-boost@v2.4.5
