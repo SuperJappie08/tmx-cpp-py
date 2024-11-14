@@ -98,7 +98,7 @@ jobs:
       with:
         name: cibw-wheels-${{ matrix.os }}-${{ matrix.arch }}
         path: wheelhouse/*.whl
-    
+
     - name: Upload wheels (Other)
       if: runner.os != 'Linux'
       uses: actions/upload-artifact@v4

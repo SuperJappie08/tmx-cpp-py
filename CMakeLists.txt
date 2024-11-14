@@ -18,6 +18,8 @@ include_directories(include/ libs/tmx-cpp/include/
 
 pybind11_add_module(tmx_cpp_py src/main.cpp)
 
+set_property(TARGET tmx_cpp_py PROPERTY CXX_STANDARD 17)
+
 target_link_libraries(tmx_cpp_py PRIVATE tmx_cpp)
 
 # EXAMPLE_VERSION_INFO is defined by setup.py and passed into the C++ code as a
