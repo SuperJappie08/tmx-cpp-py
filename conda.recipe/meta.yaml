@@ -7,8 +7,8 @@ source:
 
 build:
   number: 0
-  script_env:
-    - MACOSX_DEPLOYMENT_TARGET="10.15" # [osx]
+  # script_env:
+  #   - MACOSX_DEPLOYMENT_TARGET="10.15" # [osx]
   #   - Boost_INCLUDE_DIR={{ CONDA_PREFIX }}/include/boost
   script: {{ PYTHON }} -m pip install . -vvv
 
@@ -20,7 +20,7 @@ requirements:
     - cmake
     - ninja
     - boost-cpp ==1.74.0
-    - libtool 
+    - libtool # [not win]
     # osx
 
   host:
