@@ -73,6 +73,18 @@ manylinux-pypy_aarch64-image = "manylinux_2_28"
 # [tool.cibuildwheel.linux]
 # before-all = "dnf install -y boost-devel"
 
+[[tool.cibuildwheel.overrides]]
+select = "*-manylinux*"
+
+inherit.before-all = "prepend"
+before-all = ["dnf -y install wget"]
+
+[[tool.cibuildwheel.overrides]]
+select = "*-musllinux*"
+
+inherit.before-all = "prepend"
+before-all = ["apk add wget"]
+
 [tool.ruff]
 target-version = "py38"
 

@@ -77,7 +77,6 @@ jobs:
         CIBW_ENVIRONMENT_MACOS: BOOST_ROOT={package}/boost
         CIBW_BEFORE_BUILD_LINUX: echo $BOOST_ROOT
         CIBW_BEFORE_ALL_LINUX: >
-          dnf -y install wget &&
           cd / &&  mkdir boost && cd boost &&
           wget --no-check-certificate 'https://archives.boost.io/release/1.74.0/source/boost_1_74_0.tar.bz2' &&
           tar xf boost_1_74_0.tar.bz2 &&
