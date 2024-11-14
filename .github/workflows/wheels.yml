@@ -32,12 +32,20 @@ jobs:
 
 
   build_wheels:
-    name: Wheels on ${{ matrix.os }}
+    name: Wheels on ${{ matrix.os }} (${{ matrix.arch }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-13]
+        arch: [x86_64]
+        include:
+          - os: ubuntu-latest
+            arch: aarch64
+          - os: ubuntu-latest
+            arch: ppc64le
+          - os: ubuntu-latest
+            arch: s390x
 
     steps:
     - uses: actions/checkout@v4
@@ -45,7 +53,7 @@ jobs:
         submodules: true
 
     - name: Set up QEMU
-      if: runner.os == 'Linux'
+      if: runner.os == 'Linux' && matrix.arch != 'x86_64'
       uses: docker/setup-qemu-action@v3
       with:
         platforms: all
@@ -64,7 +72,7 @@ jobs:
     - uses: pypa/cibuildwheel@v2.21.3
       env:
         CIBW_ARCHS_MACOS: auto universal2
-        CIBW_ARCHS_LINUX: auto64 aarch64 ppc64le s390x
+        CIBW_ARCHS_LINUX: ${{ matrix.arch }}
         CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
         CIBW_ENVIRONMENT_MACOS: BOOST_ROOT={package}/boost
         CIBW_BEFORE_BUILD_LINUX: echo $BOOST_ROOT
@@ -91,7 +99,15 @@ jobs:
       run: git diff --exit-code
       shell: bash
 
-    - name: Upload wheels
+    - name: Upload wheels (Linux)
+      if: runner.os == 'Linux'
+      uses: actions/upload-artifact@v4
+      with:
+        name: cibw-wheels-${{ matrix.os }}-${{ matrix.arch }}
+        path: wheelhouse/*.whl
+    
+    - name: Upload wheels (Other)
+      if: runner.os != 'Linux'
       uses: actions/upload-artifact@v4
       with:
         name: cibw-wheels-${{ matrix.os }}
