@@ -14,13 +14,14 @@ build:
 
 requirements:
   build:
-    - "{{ stdlib('c') }}"
-    - "{{ compiler('c') }}"
+    # - "{{ compiler('c') }}"
+    # - "{{ stdlib("c") }}"
     - "{{ compiler('cxx') }}"
     - cmake
     - ninja
     - boost-cpp ==1.74.0
-    - libtool # [osx]
+    - libtool 
+    # osx
 
   host:
     - python
