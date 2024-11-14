@@ -34,7 +34,7 @@ norecursedirs = [
   'venv',
   '{arch}',
   'pybind11',
-  'boost'
+  'boost',
 ]
 addopts = [
   "-ra",
@@ -72,6 +72,19 @@ manylinux-pypy_aarch64-image = "manylinux_2_28"
 # # Install system library
 # [tool.cibuildwheel.linux]
 # before-all = "dnf install -y boost-devel"
+
+[tool.cibuildwheel.linux]
+before-all = [
+  "cd /",
+  "mkdir boost",
+  "cd boost",
+  "wget --no-check-certificate 'https://archives.boost.io/release/1.74.0/source/boost_1_74_0.tar.bz2'",
+  "tar xf boost_1_74_0.tar.bz2",
+  "cd boost_1_74_0",
+  "./bootstrap.sh --without-libraries=python,mpi,graph,graph_parallel",
+  "./b2 install --without-python --without-mpi --without-graph --without-graph_parallel",
+  "cd {package}",
+]
 
 [[tool.cibuildwheel.overrides]]
 select = "*-manylinux*"

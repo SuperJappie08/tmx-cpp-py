@@ -76,12 +76,6 @@ jobs:
         CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
         CIBW_ENVIRONMENT_MACOS: BOOST_ROOT={package}/boost
         CIBW_BEFORE_BUILD_LINUX: echo $BOOST_ROOT
-        CIBW_BEFORE_ALL_LINUX: >
-          cd / &&  mkdir boost && cd boost &&
-          wget --no-check-certificate 'https://archives.boost.io/release/1.74.0/source/boost_1_74_0.tar.bz2' &&
-          tar xf boost_1_74_0.tar.bz2 &&
-          cd boost_1_74_0 && ./bootstrap.sh --without-libraries=python,mpi,graph,graph_parallel  && ./b2 install --without-python --without-mpi --without-graph --without-graph_parallel &&
-          cd {package}
         CIBW_BEFORE_ALL_MACOS: >
           brew install wget &&
           cd {package} &&  mkdir boost && cd boost &&
@@ -111,7 +105,6 @@ jobs:
       with:
         name: cibw-wheels-${{ matrix.os }}
         path: wheelhouse/*.whl
-
 
   upload_all:
     name: Upload if release
