@@ -67,7 +67,7 @@ jobs:
       if: runner.os == 'Windows'
       run: pip install --verbose .[test]
       env:
-        BOOST_ROOT: C:\Users\runneradmin\.nuget\packages\boost\1.74.0 
+        BOOST_ROOT: C:\Users\runneradmin\.nuget\packages\boost\1.74.0
 
     - name: Test
       run: python -m pytest
