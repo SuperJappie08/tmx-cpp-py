@@ -60,7 +60,7 @@ jobs:
 
     - name: MacOS permissions fix
       if: matrix.os == 'macos-14'
-      run: sudo chown runner:admin -R /usr
+      run: sudo chown runner:admin -R /usr/local
 
     - name: Install boost
       uses: MarkusJx/install-boost@v2.4.5
