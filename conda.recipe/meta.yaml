@@ -19,8 +19,8 @@ requirements:
     - cmake
     - ninja
     - boost-cpp ==1.74.0
-    - libtool # [not win]
-    - macosx_deployment_target_osx-64 >=10.15 # [osx]
+    # - libtool # [not win]
+    # - macosx_deployment_target_osx-64 >=10.15 # [osx]
 
   host:
     - python
