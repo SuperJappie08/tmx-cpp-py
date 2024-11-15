@@ -21,24 +21,16 @@
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
-// std::shared_ptr<tmx_cpp::TMX> create_tmx(const std::function<void()>
-// &stop_func,
-//                                          std::string port = "/dev/ttyACM0") {
-//   return std::make_shared<tmx_cpp::TMX>(stop_func, port);
-// }
-
-tmx_cpp::SSD1306_module create_ssd1306(uint8_t i2c_port,
-                                       uint8_t address = 0x3C) {
-  return tmx_cpp::SSD1306_module(i2c_port, address);
-}
-
 namespace py = pybind11;
 
 using namespace py::literals;
 
-using tmx_cpp::HiwonderServo_module;
-using tmx_cpp::PCA9685_module;
-using tmx_cpp::TMX;
+namespace tmx = tmx_cpp;
+
+using tmx::HiwonderServo_module;
+using tmx::MESSAGE_TYPE;
+using tmx::PCA9685_module;
+using tmx::TMX;
 
 PYBIND11_MODULE(tmx_cpp_py, m) {
   m.doc() = R"pbdoc(
@@ -51,47 +43,45 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
            :toctree: _generate
     )pbdoc";
 
-  py::enum_<tmx_cpp::MESSAGE_TYPE>(
-      m, "MessageType", "Outward Message types (Out of PC - Into MCU)")
-      .value("SERIAL_LOOP_BACK", tmx_cpp::MESSAGE_TYPE::SERIAL_LOOP_BACK)
-      .value("SET_PIN_MODE", tmx_cpp::MESSAGE_TYPE::SET_PIN_MODE)
-      .value("DIGITAL_WRITE", tmx_cpp::MESSAGE_TYPE::DIGITAL_WRITE)
-      .value("PWM_WRITE", tmx_cpp::MESSAGE_TYPE::PWM_WRITE)
-      .value("MODIFY_REPORTING", tmx_cpp::MESSAGE_TYPE::MODIFY_REPORTING)
-      .value("FIRMWARE_VERSION", tmx_cpp::MESSAGE_TYPE::FIRMWARE_VERSION)
-      .value("GET_PICO_UNIQUE_ID", tmx_cpp::MESSAGE_TYPE::GET_PICO_UNIQUE_ID)
-      .value("SERVO_ATTACH", tmx_cpp::MESSAGE_TYPE::SERVO_ATTACH)
-      .value("SERVO_WRITE", tmx_cpp::MESSAGE_TYPE::SERVO_WRITE)
-      .value("SERVO_DETACH", tmx_cpp::MESSAGE_TYPE::SERVO_DETACH)
-      .value("I2C_BEGIN", tmx_cpp::MESSAGE_TYPE::I2C_BEGIN)
-      .value("I2C_READ", tmx_cpp::MESSAGE_TYPE::I2C_READ)
-      .value("I2C_WRITE", tmx_cpp::MESSAGE_TYPE::I2C_WRITE)
-      .value("SONAR_NEW", tmx_cpp::MESSAGE_TYPE::SONAR_NEW)
-      .value("DHT_NEW", tmx_cpp::MESSAGE_TYPE::DHT_NEW)
-      .value("STOP_ALL_REPORTS", tmx_cpp::MESSAGE_TYPE::STOP_ALL_REPORTS)
-      .value("ENABLE_ALL_REPORTS", tmx_cpp::MESSAGE_TYPE::ENABLE_ALL_REPORTS)
-      .value("RESET_DATA", tmx_cpp::MESSAGE_TYPE::RESET_DATA)
-      .value("RESET_BOARD", tmx_cpp::MESSAGE_TYPE::RESET_BOARD)
-      .value("INITIALIZE_NEO_PIXELS",
-             tmx_cpp::MESSAGE_TYPE::INITIALIZE_NEO_PIXELS)
-      .value("SHOW_NEO_PIXELS", tmx_cpp::MESSAGE_TYPE::SHOW_NEO_PIXELS)
-      .value("SET_NEO_PIXEL", tmx_cpp::MESSAGE_TYPE::SET_NEO_PIXEL)
-      .value("CLEAR_ALL_NEO_PIXELS",
-             tmx_cpp::MESSAGE_TYPE::CLEAR_ALL_NEO_PIXELS)
-      .value("FILL_NEO_PIXELS", tmx_cpp::MESSAGE_TYPE::FILL_NEO_PIXELS)
-      .value("SPI_INIT", tmx_cpp::MESSAGE_TYPE::SPI_INIT)
-      .value("SPI_WRITE", tmx_cpp::MESSAGE_TYPE::SPI_WRITE)
-      .value("SPI_READ", tmx_cpp::MESSAGE_TYPE::SPI_READ)
-      .value("SPI_SET_FORMAT", tmx_cpp::MESSAGE_TYPE::SPI_SET_FORMAT)
-      .value("SPI_CS_CONTROL", tmx_cpp::MESSAGE_TYPE::SPI_CS_CONTROL)
-      .value("SET_SCAN_DELAY", tmx_cpp::MESSAGE_TYPE::SET_SCAN_DELAY)
-      .value("ENCODER_NEW", tmx_cpp::MESSAGE_TYPE::ENCODER_NEW)
-      .value("SENSOR_NEW", tmx_cpp::MESSAGE_TYPE::SENSOR_NEW)
-      .value("PING", tmx_cpp::MESSAGE_TYPE::PING)
-      .value("MODULE_NEW", tmx_cpp::MESSAGE_TYPE::MODULE_NEW)
-      .value("MODULE_DATA", tmx_cpp::MESSAGE_TYPE::MODULE_DATA)
-      .value("GET_ID", tmx_cpp::MESSAGE_TYPE::GET_ID)
-      .value("SET_ID", tmx_cpp::MESSAGE_TYPE::SET_ID);
+  py::enum_<MESSAGE_TYPE>(m, "MessageType",
+                          "Outward Message types (Out of PC - Into MCU)")
+      .value("SERIAL_LOOP_BACK", MESSAGE_TYPE::SERIAL_LOOP_BACK)
+      .value("SET_PIN_MODE", MESSAGE_TYPE::SET_PIN_MODE)
+      .value("DIGITAL_WRITE", MESSAGE_TYPE::DIGITAL_WRITE)
+      .value("PWM_WRITE", MESSAGE_TYPE::PWM_WRITE)
+      .value("MODIFY_REPORTING", MESSAGE_TYPE::MODIFY_REPORTING)
+      .value("FIRMWARE_VERSION", MESSAGE_TYPE::FIRMWARE_VERSION)
+      .value("GET_PICO_UNIQUE_ID", MESSAGE_TYPE::GET_PICO_UNIQUE_ID)
+      .value("SERVO_ATTACH", MESSAGE_TYPE::SERVO_ATTACH)
+      .value("SERVO_WRITE", MESSAGE_TYPE::SERVO_WRITE)
+      .value("SERVO_DETACH", MESSAGE_TYPE::SERVO_DETACH)
+      .value("I2C_BEGIN", MESSAGE_TYPE::I2C_BEGIN)
+      .value("I2C_READ", MESSAGE_TYPE::I2C_READ)
+      .value("I2C_WRITE", MESSAGE_TYPE::I2C_WRITE)
+      .value("SONAR_NEW", MESSAGE_TYPE::SONAR_NEW)
+      .value("DHT_NEW", MESSAGE_TYPE::DHT_NEW)
+      .value("STOP_ALL_REPORTS", MESSAGE_TYPE::STOP_ALL_REPORTS)
+      .value("ENABLE_ALL_REPORTS", MESSAGE_TYPE::ENABLE_ALL_REPORTS)
+      .value("RESET_DATA", MESSAGE_TYPE::RESET_DATA)
+      .value("RESET_BOARD", MESSAGE_TYPE::RESET_BOARD)
+      .value("INITIALIZE_NEO_PIXELS", MESSAGE_TYPE::INITIALIZE_NEO_PIXELS)
+      .value("SHOW_NEO_PIXELS", MESSAGE_TYPE::SHOW_NEO_PIXELS)
+      .value("SET_NEO_PIXEL", MESSAGE_TYPE::SET_NEO_PIXEL)
+      .value("CLEAR_ALL_NEO_PIXELS", MESSAGE_TYPE::CLEAR_ALL_NEO_PIXELS)
+      .value("FILL_NEO_PIXELS", MESSAGE_TYPE::FILL_NEO_PIXELS)
+      .value("SPI_INIT", MESSAGE_TYPE::SPI_INIT)
+      .value("SPI_WRITE", MESSAGE_TYPE::SPI_WRITE)
+      .value("SPI_READ", MESSAGE_TYPE::SPI_READ)
+      .value("SPI_SET_FORMAT", MESSAGE_TYPE::SPI_SET_FORMAT)
+      .value("SPI_CS_CONTROL", MESSAGE_TYPE::SPI_CS_CONTROL)
+      .value("SET_SCAN_DELAY", MESSAGE_TYPE::SET_SCAN_DELAY)
+      .value("ENCODER_NEW", MESSAGE_TYPE::ENCODER_NEW)
+      .value("SENSOR_NEW", MESSAGE_TYPE::SENSOR_NEW)
+      .value("PING", MESSAGE_TYPE::PING)
+      .value("MODULE_NEW", MESSAGE_TYPE::MODULE_NEW)
+      .value("MODULE_DATA", MESSAGE_TYPE::MODULE_DATA)
+      .value("GET_ID", MESSAGE_TYPE::GET_ID)
+      .value("SET_ID", MESSAGE_TYPE::SET_ID);
 
   py::enum_<TMX::PIN_MODES>(m, "PinMode")
       .value("DIGITAL_INPUT", TMX::PIN_MODES::DIGITAL_INPUT)
@@ -111,9 +101,8 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
            "callback"_a)
       .def("stop", &TMX::stop, "Stop all communication")
       .def("send_message",
-           static_cast<void (TMX::*)(tmx_cpp::MESSAGE_TYPE,
-                                     const std::vector<uint8_t> &)>(
-               &TMX::sendMessage),
+           static_cast<void (TMX::*)(
+               MESSAGE_TYPE, const std::vector<uint8_t> &)>(&TMX::sendMessage),
            "type"_a, "message"_a)
       .def("set_pin_mode", &TMX::setPinMode, "pin"_a, "mode"_a,
            "reporting"_a = true, "analog_differential"_a = 0)
@@ -133,54 +122,59 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
       .def("write_servo", &TMX::write_servo, "pin"_a, "duty_cycle"_a)
       .def("detach_servo", &TMX::detach_servo, "pin"_a)
       .def("set_scan_delay", &TMX::setScanDelay, "delay"_a)
-      .def("set_i2c_pins", &TMX::setI2CPins, "sda"_a, "scl"_a, "port"_a);
+      .def("set_i2c_pins", &TMX::setI2CPins, "sda"_a, "scl"_a, "port"_a)
+      .def_property_readonly("connected",
+                             [](TMX &self) { return self.serial->isOpen(); });
 
-  py::class_<tmx_cpp::Sensor_type, std::shared_ptr<tmx_cpp::Sensor_type>>(
+  /* ===== SENSORS =====*/
+  py::class_<tmx::Sensor_type, std::shared_ptr<tmx::Sensor_type>>(
       m, "SensorBase");
-  py::class_<tmx_cpp::Sensors, std::shared_ptr<tmx_cpp::Sensors>>(m, "Sensors")
+  // TODO: Should add check if TMX is connected.
+  py::class_<tmx::Sensors, std::shared_ptr<tmx::Sensors>>(m, "Sensors")
       .def(py::init<std::shared_ptr<TMX>>(), "tmx"_a)
-      .def("add_sens", &tmx_cpp::Sensors::add_sens, "sensor"_a);
+      .def("add_sens", &tmx::Sensors::add_sens, "sensor"_a);
 
   // ADDR 0x53
-  py::class_<tmx_cpp::ADXL345_module, std::shared_ptr<tmx_cpp::ADXL345_module>,
-             tmx_cpp::Sensor_type>(m, "ADXL345_Sensor")
-      .def(py::init<uint8_t, uint8_t, tmx_cpp::ADXL345_cb_t>(), "i2c_port"_a,
+  py::class_<tmx::ADXL345_module, std::shared_ptr<tmx::ADXL345_module>,
+             tmx::Sensor_type>(m, "ADXL345_Sensor")
+      .def(py::init<uint8_t, uint8_t, tmx::ADXL345_cb_t>(), "i2c_port"_a,
            "i2c_addr"_a, "callback"_a);
-  // .def("send_module", &tmx_cpp::ADXL345_module::send_module);
+  // .def("send_module", &tmx::ADXL345_module::send_module);
 
   // ADDR 0x40
-  py::class_<tmx_cpp::INA226_module, std::shared_ptr<tmx_cpp::INA226_module>,
-             tmx_cpp::Sensor_type>(m, "INA226_Sensor")
-      .def(py::init<uint8_t, uint8_t, tmx_cpp::INA226_cb_t>(), "i2c_port"_a,
+  py::class_<tmx::INA226_module, std::shared_ptr<tmx::INA226_module>,
+             tmx::Sensor_type>(m, "INA226_Sensor")
+      .def(py::init<uint8_t, uint8_t, tmx::INA226_cb_t>(), "i2c_port"_a,
            "i2c_addr"_a, "callback"_a);
 
   // ADDR 0x63
-  py::class_<tmx_cpp::MPU9250_module, std::shared_ptr<tmx_cpp::MPU9250_module>,
-             tmx_cpp::Sensor_type>(m, "MPU9250_Sensor")
-      .def(py::init<uint8_t, uint8_t, tmx_cpp::MPU9250_cb_t>(), "i2c_port"_a,
+  py::class_<tmx::MPU9250_module, std::shared_ptr<tmx::MPU9250_module>,
+             tmx::Sensor_type>(m, "MPU9250_Sensor")
+      .def(py::init<uint8_t, uint8_t, tmx::MPU9250_cb_t>(), "i2c_port"_a,
            "i2c_addr"_a, "callback"_a);
 
   // ADDR 0x10
-  py::class_<tmx_cpp::VEML6040_module,
-             std::shared_ptr<tmx_cpp::VEML6040_module>, tmx_cpp::Sensor_type>(
+  py::class_<tmx::VEML6040_module,
+             std::shared_ptr<tmx::VEML6040_module>, tmx::Sensor_type>(
       m, "VEML6040_sensor")
-      .def(py::init<uint8_t, uint8_t, tmx_cpp::VEML6040_cb_t>(), "i2c_port"_a,
+      .def(py::init<uint8_t, uint8_t, tmx::VEML6040_cb_t>(), "i2c_port"_a,
            "i2c_addr"_a, "callback"_a);
 
   /* ===== MODULES ===== */
-  py::class_<tmx_cpp::Module_type, std::shared_ptr<tmx_cpp::Module_type>>(
+  py::class_<tmx::Module_type, std::shared_ptr<tmx::Module_type>>(
       m, "ModuleBase");
-  py::class_<tmx_cpp::Modules, std::shared_ptr<tmx_cpp::Modules>>(m, "Modules")
+  // TODO: Should add check if TMX is connected.
+  py::class_<tmx::Modules, std::shared_ptr<tmx::Modules>>(m, "Modules")
       .def(py::init<std::shared_ptr<TMX>>(), "tmx"_a)
-      .def("add_mod", &tmx_cpp::Modules::add_mod, "module"_a);
+      .def("add_mod", &tmx::Modules::add_mod, "module"_a);
 
   // ADDR 0x3C
-  py::class_<tmx_cpp::SSD1306_module, std::shared_ptr<tmx_cpp::SSD1306_module>,
-             tmx_cpp::Module_type>(m, "SSD1306_Module")
-      .def(py::init(&create_ssd1306), "i2c_port"_a, "address"_a = 0x3C)
-      .def("send_text", &tmx_cpp::SSD1306_module::send_text, "text"_a,
+  py::class_<tmx::SSD1306_module, std::shared_ptr<tmx::SSD1306_module>,
+             tmx::Module_type>(m, "SSD1306_Module")
+      .def(py::init<uint8_t, uint8_t>(), "i2c_port"_a, "address"_a = 0x3C)
+      .def("send_text", &tmx::SSD1306_module::send_text, "text"_a,
            "timeout"_a = 200ms)
-      .def("send_image", &tmx_cpp::SSD1306_module::send_image, "width"_a,
+      .def("send_image", &tmx::SSD1306_module::send_image, "width"_a,
            "height"_a, "img_buffer"_a, "timeout"_a = 200ms);
 
   py::class_<HiwonderServo_module::Servo_pos>(m, "ServoPos")
@@ -196,7 +190,7 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
       });
 
   py::class_<HiwonderServo_module, std::shared_ptr<HiwonderServo_module>,
-             tmx_cpp::Module_type>(m, "HiwonderServo_Module")
+             tmx::Module_type>(m, "HiwonderServo_Module")
       .def(py::init<uint8_t, uint8_t, uint8_t, std::vector<uint8_t>,
                     std::function<void(
                         std::vector<std::tuple<
@@ -223,7 +217,7 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
 
   // ADDR 0x40
   py::class_<PCA9685_module, std::shared_ptr<PCA9685_module>,
-             tmx_cpp::Module_type>(m, "PCA9685_Module")
+             tmx::Module_type>(m, "PCA9685_Module")
       .def(py::init<uint8_t, uint8_t, int>(), "i2c_port"_a, "address"_a = 0x40,
            "frequency"_a = 200)
       .def("set_pwm", &PCA9685_module::set_pwm, "channel"_a, "high"_a,

@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-12]
+        platform: [ubuntu-latest, windows-latest, macos-13]
         python-version: ["3.8", "3.10"]
 
     runs-on: ${{ matrix.platform }}
@@ -47,7 +47,12 @@ jobs:
       #   run: |
       #     nuget install boost -Version 1.74.0
 
-      - name: Build
+      - name: Build (Windows)
+        if: ${{ runner.os == 'Windows' }}
+        run: conda build conda.recipe --python=${{ matrix.python-version }}
+
+      - name: Build (Others)
+        if: ${{ runner.os != 'Windows' }}
         run: conda build conda.recipe
 
       - name: Install
