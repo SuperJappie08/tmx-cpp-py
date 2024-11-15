@@ -19,11 +19,12 @@ include_directories(
 
 pybind11_add_module(tmx_cpp_py src/main.cpp)
 
-set_property(TARGET tmx_cpp_py PROPERTY CXX_STANDARD 17)
+set_property(TARGET tmx_cpp_py PROPERTY CXX_STANDARD 20)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   target_compile_definitions(
     tmx_cpp_py PRIVATE _LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION
+                       _LIBCPP_ENABLE_CXX20_REMOVED_TYPE_TRAITS
   )
 endif()
 
