@@ -17,7 +17,7 @@ requirements:
     # - "{{ stdlib("c") }}"
     - "{{ compiler('cxx') }}"
     - cmake
-    - ninja
+    # - ninja
     - boost-cpp ==1.74.0
     # - libtool # [not win]
     # - macosx_deployment_target_osx-64 >=10.15 # [osx]

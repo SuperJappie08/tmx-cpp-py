@@ -47,10 +47,6 @@ jobs:
       #   run: |
       #     nuget install boost -Version 1.74.0
 
-      # - name: 
-      #   if: ${{ runner.os == 'Windows' }}
-      #   run: 
-
       - name: Build
         run: conda build conda.recipe
 
