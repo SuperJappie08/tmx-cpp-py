@@ -48,7 +48,7 @@ jobs:
       #     nuget install boost -Version 1.74.0
 
       - name: Build
-        run: conda build conda.recipe
+        run: conda build conda.recipe -m .github/conda_build_config.yaml
 
       - name: Install
         run: conda install -c ${CONDA_PREFIX}/conda-bld/ tmx_cpp_py

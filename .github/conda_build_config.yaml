@@ -1,0 +1,9 @@
+# Conda build config yaml for GitHub Actions Runners
+# Targeting:
+#  - windows-latest (2022)
+#  - ubuntu-latest
+#  - macos-13
+c_compiler:   # [win]
+  - vs2022    # [win]
+cxx_compiler: # [win]
+  - vs2022    # [win]
