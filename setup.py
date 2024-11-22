@@ -125,6 +125,8 @@ class CMakeBuild(build_ext):
         )
 
 
+# TODO: Figure out how to generate and include stubfile at build time with pybind11-stubgen
+
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(

@@ -1,4 +1,5 @@
 #include <memory>
+#include <thread>
 
 #include <pybind11/chrono.h>
 #include <pybind11/functional.h>
@@ -92,12 +93,15 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
       .value("ANALOG_INPUT", TMX::PIN_MODES::ANALOG_INPUT);
 
   py::class_<TMX, std::shared_ptr<TMX>>(m, "TMX")
-      .def(py::init<std::function<void()>, std::string>(), "stop_func"_a,
-           "port"_a = "/dev/ttyACM0")
-      .def(py::init([](std::string port) {
-             return std::make_shared<tmx_cpp::TMX>([]() {}, port);
+      .def(py::init<std::function<void()>, std::string, size_t>(),
+           "stop_func"_a, "port"_a = "/dev/ttyACM0",
+           "parse_pool_size"_a = std::thread::hardware_concurrency())
+      .def(py::init([](std::string port, size_t parse_pool_size) {
+             return std::make_shared<tmx_cpp::TMX>([]() {}, port,
+                                                   parse_pool_size);
            }),
-           "port"_a = "/dev/ttyACM0")
+           "port"_a = "/dev/ttyACM0",
+           "parse_pool_size"_a = std::thread::hardware_concurrency())
       // Add Pin Callbacks
       .def("add_digital_callback", &TMX::add_digital_callback, "pin"_a,
            "callback"_a)
