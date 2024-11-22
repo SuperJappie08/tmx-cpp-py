@@ -94,6 +94,10 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
   py::class_<TMX, std::shared_ptr<TMX>>(m, "TMX")
       .def(py::init<std::function<void()>, std::string>(), "stop_func"_a,
            "port"_a = "/dev/ttyACM0")
+      .def(py::init([](std::string port) {
+             return std::make_shared<tmx_cpp::TMX>([]() {}, port);
+           }),
+           "port"_a = "/dev/ttyACM0")
       // Add Pin Callbacks
       .def("add_digital_callback", &TMX::add_digital_callback, "pin"_a,
            "callback"_a)
@@ -127,8 +131,8 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
                              [](TMX &self) { return self.serial->isOpen(); });
 
   /* ===== SENSORS =====*/
-  py::class_<tmx::Sensor_type, std::shared_ptr<tmx::Sensor_type>>(
-      m, "SensorBase");
+  py::class_<tmx::Sensor_type, std::shared_ptr<tmx::Sensor_type>>(m,
+                                                                  "SensorBase");
   // TODO: Should add check if TMX is connected.
   py::class_<tmx::Sensors, std::shared_ptr<tmx::Sensors>>(m, "Sensors")
       .def(py::init<std::shared_ptr<TMX>>(), "tmx"_a)
@@ -154,15 +158,14 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
            "i2c_addr"_a, "callback"_a);
 
   // ADDR 0x10
-  py::class_<tmx::VEML6040_module,
-             std::shared_ptr<tmx::VEML6040_module>, tmx::Sensor_type>(
-      m, "VEML6040_sensor")
+  py::class_<tmx::VEML6040_module, std::shared_ptr<tmx::VEML6040_module>,
+             tmx::Sensor_type>(m, "VEML6040_sensor")
       .def(py::init<uint8_t, uint8_t, tmx::VEML6040_cb_t>(), "i2c_port"_a,
            "i2c_addr"_a, "callback"_a);
 
   /* ===== MODULES ===== */
-  py::class_<tmx::Module_type, std::shared_ptr<tmx::Module_type>>(
-      m, "ModuleBase");
+  py::class_<tmx::Module_type, std::shared_ptr<tmx::Module_type>>(m,
+                                                                  "ModuleBase");
   // TODO: Should add check if TMX is connected.
   py::class_<tmx::Modules, std::shared_ptr<tmx::Modules>>(m, "Modules")
       .def(py::init<std::shared_ptr<TMX>>(), "tmx"_a)
@@ -174,8 +177,25 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
       .def(py::init<uint8_t, uint8_t>(), "i2c_port"_a, "address"_a = 0x3C)
       .def("send_text", &tmx::SSD1306_module::send_text, "text"_a,
            "timeout"_a = 200ms)
-      .def("send_image", &tmx::SSD1306_module::send_image, "width"_a,
-           "height"_a, "img_buffer"_a, "timeout"_a = 200ms);
+      .def(
+          "send_image",
+          [](std::shared_ptr<tmx::SSD1306_module> self, uint8_t width,
+             uint8_t height, std::vector<uint8_t> img_buffer,
+             std::chrono::milliseconds timeout) {
+            return self->send_image(width, height, img_buffer.data(), timeout);
+          },
+          "width"_a, "height"_a, "img_buffer"_a, "timeout"_a = 200ms)
+      .def(
+          "send_image",
+          [](std::shared_ptr<tmx::SSD1306_module> self, uint8_t width,
+             uint8_t height, py::bytes img_buffer,
+             std::chrono::milliseconds timeout) {
+            return self->send_image(
+                width, height,
+                reinterpret_cast<uint8_t *>(std::string(img_buffer).data()),
+                timeout);
+          },
+          "width"_a, "height"_a, "img_buffer"_a, "timeout"_a = 200ms);
 
   py::class_<HiwonderServo_module::Servo_pos>(m, "ServoPos")
       .def(py::init<uint8_t, uint16_t, uint16_t>(), "id"_a = 0, "angle"_a = 0,
@@ -216,8 +236,8 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
       .def_readwrite("low", &PCA9685_module::PWM_val::low);
 
   // ADDR 0x40
-  py::class_<PCA9685_module, std::shared_ptr<PCA9685_module>,
-             tmx::Module_type>(m, "PCA9685_Module")
+  py::class_<PCA9685_module, std::shared_ptr<PCA9685_module>, tmx::Module_type>(
+      m, "PCA9685_Module")
       .def(py::init<uint8_t, uint8_t, int>(), "i2c_port"_a, "address"_a = 0x40,
            "frequency"_a = 200)
       .def("set_pwm", &PCA9685_module::set_pwm, "channel"_a, "high"_a,
