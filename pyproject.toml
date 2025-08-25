@@ -58,6 +58,8 @@ test-skip = ["*universal2:arm64"]
 # Setuptools bug causes collision between pypy and cpython artifacts
 before-build = "rm -rf {project}/build"
 
+# Disable free-threading builds on all platforms
+skip = "cp3??t-*"
 
 # Build using the manylinux_2_34 image
 # NOTE: This is incompatible with older hardware not supporting x86-64-v2 (Roughly everything pre 2010)
