@@ -139,7 +139,9 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
                                                                   "SensorBase");
   // TODO: Should add check if TMX is connected.
   py::class_<tmx::Sensors, std::shared_ptr<tmx::Sensors>>(m, "Sensors")
-      .def(py::init<std::shared_ptr<TMX>>(), "tmx"_a)
+      .def(py::init([](std::shared_ptr<TMX> tmx) {
+             return std::make_shared<tmx_cpp::Sensors>(tmx.get());
+           }), "tmx"_a)
       .def("add_sens", &tmx::Sensors::add_sens, "sensor"_a);
 
   // ADDR 0x53
@@ -172,7 +174,9 @@ PYBIND11_MODULE(tmx_cpp_py, m) {
                                                                   "ModuleBase");
   // TODO: Should add check if TMX is connected.
   py::class_<tmx::Modules, std::shared_ptr<tmx::Modules>>(m, "Modules")
-      .def(py::init<std::shared_ptr<TMX>>(), "tmx"_a)
+      .def(py::init([](std::shared_ptr<TMX> tmx) {
+             return std::make_shared<tmx_cpp::Modules>(tmx.get());
+           }), "tmx"_a)
       .def("add_mod", &tmx::Modules::add_mod, "module"_a);
 
   // ADDR 0x3C
