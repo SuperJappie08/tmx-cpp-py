@@ -4,7 +4,5 @@
     branch = v2.13
 [submodule "libs/tmx-cpp"]
     path = libs/tmx-cpp
-    # url = https://github.com/ArendJan/tmx-cpp.git
-    # branch = main
-    url = https://github.com/SuperJappie08/tmx-cpp.git
+    url = https://github.com/ArendJan/tmx-cpp.git
     branch = main
