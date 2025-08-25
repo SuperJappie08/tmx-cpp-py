@@ -97,7 +97,7 @@ before-all = ["dnf -y install wget boost-devel"]
 select = "*-musllinux*"
 
 inherit.before-all = "prepend"
-before-all = ["apk add wget"]
+before-all = ["apk add wget", "apk add boost-dev"]
 
 [tool.ruff]
 target-version = "py38"
