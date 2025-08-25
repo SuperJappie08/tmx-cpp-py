@@ -1,6 +1,5 @@
 #include <memory>
 #include <thread>
-#include <utility>
 
 #include <pybind11/chrono.h>
 #include <pybind11/functional.h>
