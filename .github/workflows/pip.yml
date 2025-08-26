@@ -43,7 +43,9 @@ jobs:
     - name: Install Dependencies (Windows)
       if: ${{ runner.os == 'Windows' }}
       run: |
-        nuget install boost -Version 1.74.0
+        # nuget install boost -Version 1.74.0
+        Invoke-Webrequest -Uri https://archives.boost.io/release/1.74.0/source/boost_1_74_0.zip -OutFile boost_1_74_0.zip
+        Expand-Archive boost_1_74_0.zip .\boost_1_74_0
 
     # - name: Install boost (Windows)
     #   uses: MarkusJx/install-boost@v2.4.5
@@ -65,12 +67,10 @@ jobs:
 
     - name: Build and install
       if: runner.os == 'Windows'
-      run: |
-        Get-ChildItem .\boost.1.74.0.0\lib\native\
-        pip install --verbose .[test]
+      run: pip install --verbose .[test]
       env:
-        BOOST_ROOT: C:\Users\runneradmin\.nuget\packages\boost\1.74.0
-        Boost_INCLUDE_DIR: .\boost.1.74.0.0\lib\native\include
+        # BOOST_ROOT: C:\Users\runneradmin\.nuget\packages\boost\1.74.0
+        Boost_INCLUDE_DIR: ${{ github.workspace }}\boost_1_74_0\boost_1_74_0
 
     - name: Test
       run: python -m pytest
