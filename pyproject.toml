@@ -61,14 +61,13 @@ before-build = "rm -rf {project}/build"
 # Disable free-threading builds on all platforms
 skip = "cp3??t-*"
 
-# Build using the manylinux_2_34 image
-# NOTE: This is incompatible with older hardware not supporting x86-64-v2 (Roughly everything pre 2010)
-manylinux-x86_64-image = "manylinux_2_34"
-manylinux-aarch64-image = "manylinux_2_34"
-manylinux-ppc64le-image = "manylinux_2_34"
-manylinux-s390x-image = "manylinux_2_34"
-manylinux-pypy_x86_64-image = "manylinux_2_34"
-manylinux-pypy_aarch64-image = "manylinux_2_34"
+# Build using the manylinux_2_28 image
+manylinux-x86_64-image = "manylinux_2_28"
+manylinux-aarch64-image = "manylinux_2_28"
+manylinux-ppc64le-image = "manylinux_2_28"
+manylinux-s390x-image = "manylinux_2_28"
+manylinux-pypy_x86_64-image = "manylinux_2_28"
+manylinux-pypy_aarch64-image = "manylinux_2_28"
 
 # # Install system library
 # [tool.cibuildwheel.linux]
@@ -91,13 +90,13 @@ before-all = [
 select = "*-manylinux*"
 
 inherit.before-all = "prepend"
-before-all = ["dnf -y install wget boost-devel"]
+before-all = ["dnf -y install boost1.78-devel"]
 
 [[tool.cibuildwheel.overrides]]
 select = "*-musllinux*"
 
 inherit.before-all = "prepend"
-before-all = ["apk add wget", "apk add boost-dev"]
+before-all = ["apk add boost-dev"]
 
 [tool.ruff]
 target-version = "py38"
