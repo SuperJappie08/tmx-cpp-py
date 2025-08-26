@@ -77,7 +77,7 @@ manylinux-pypy_aarch64-image = "manylinux_2_28"
 before-all = ["nuget install boost -Version 1.74.0"]
 
 [tool.cibuildwheel.windows.config-settings]
-cmake.define.Boost_INCLUDE_DIR="./boost.1.74.0.0"
+cmake.define.Boost_INCLUDE_DIR="./boost.1.74.0.0/lib/native/include"
 
 [tool.cibuildwheel.linux]
 before-all = [

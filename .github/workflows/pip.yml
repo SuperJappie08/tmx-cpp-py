@@ -66,11 +66,11 @@ jobs:
     - name: Build and install
       if: runner.os == 'Windows'
       run: |
-        Get-ChildItem .\boost.1.74.0.0
+        Get-ChildItem .\boost.1.74.0.0\lib\native\
         pip install --verbose .[test]
       env:
         BOOST_ROOT: C:\Users\runneradmin\.nuget\packages\boost\1.74.0
-        Boost_INCLUDE_DIR: .\boost.1.74.0.0
+        Boost_INCLUDE_DIR: .\boost.1.74.0.0\lib\native\include
 
     - name: Test
       run: python -m pytest
