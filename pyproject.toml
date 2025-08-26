@@ -73,6 +73,9 @@ manylinux-pypy_aarch64-image = "manylinux_2_28"
 # [tool.cibuildwheel.linux]
 # before-all = "dnf install -y boost-devel"
 
+[tool.cibuildwheel.windows]
+before-all = ["nuget install boost -Version 1.74.0"]
+
 [tool.cibuildwheel.linux]
 before-all = [
   # "cd /",

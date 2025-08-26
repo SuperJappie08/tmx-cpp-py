@@ -62,22 +62,22 @@ jobs:
     #   if: matrix.os == 'macos-14'
     #   run: sudo chown runner:admin -R /usr/local
 
-    - name: Install boost
-      uses: MarkusJx/install-boost@v2.5.0
-      if: ${{ runner.os == 'Windows' }} # || runner.os == 'macOS'
-      id: install-boost
-      with:
-          # REQUIRED: Specify the required boost version
-          # A list of supported versions can be found here:
-          # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
-          boost_version: 1.74.0
-          # platform_version: ${{ os.version }}
+    # - name: Install boost
+    #   uses: MarkusJx/install-boost@v2.5.0
+    #   if: ${{ runner.os == 'Windows' }} # || runner.os == 'macOS'
+    #   id: install-boost
+    #   with:
+    #       # REQUIRED: Specify the required boost version
+    #       # A list of supported versions can be found here:
+    #       # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
+    #       boost_version: 1.74.0
+    #       # platform_version: ${{ os.version }}
 
     - uses: pypa/cibuildwheel@v3.1.4
       env:
         CIBW_ARCHS_MACOS: ${{ matrix.arch }}
         CIBW_ARCHS_LINUX: ${{ matrix.arch }}
-        CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
+        # CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
         CIBW_ENVIRONMENT_MACOS: BOOST_ROOT={package}/boost MACOSX_DEPLOYMENT_TARGET="10.15"
         CIBW_BEFORE_BUILD_LINUX: echo $BOOST_ROOT
         CIBW_BEFORE_ALL_MACOS: >
