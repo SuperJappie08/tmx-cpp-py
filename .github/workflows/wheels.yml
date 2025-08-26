@@ -65,7 +65,7 @@ jobs:
     #   run: sudo chown runner:admin -R /usr/local
 
     - name: Install boost
-      uses: MarkusJx/install-boost@v2.5.0
+      uses: MarkusJx/install-boost@6d8df42f57de83c5b326b5b83e7b35d650030103
       if: ${{ runner.os == 'Windows' }} # || runner.os == 'macOS'
       id: install-boost
       with:

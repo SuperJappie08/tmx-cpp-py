@@ -64,7 +64,7 @@ jobs:
     #   if: ${{ matrix.platform }} == windows-latest
     #   run:
 
-      uses: MarkusJx/install-boost@v2.5.0
+      uses: MarkusJx/install-boost@6d8df42f57de83c5b326b5b83e7b35d650030103
       id: install-boost
       with:
           # REQUIRED: Specify the required boost version
