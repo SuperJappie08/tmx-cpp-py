@@ -73,14 +73,14 @@ manylinux-pypy_aarch64-image = "manylinux_2_28"
 # [tool.cibuildwheel.linux]
 # before-all = "dnf install -y boost-devel"
 
-[tool.cibuildwheel.windows]
-before-all = [
-  "powershell.exe -Command 'Invoke-Webrequest -Uri https://archives.boost.io/release/1.74.0/source/boost_1_74_0.zip -OutFile boost_1_74_0.zip'",
-  "powershell.exe -Command 'Expand-Archive boost_1_74_0.zip .\boost_1_74_0'"
-]
+# [tool.cibuildwheel.windows]
+# before-all = [
+#   "powershell.exe -Command 'Invoke-Webrequest -Uri https://archives.boost.io/release/1.74.0/source/boost_1_74_0.zip -OutFile boost_1_74_0.zip'",
+#   "powershell.exe -Command 'Expand-Archive boost_1_74_0.zip .\boost_1_74_0'"
+# ]
 
-[tool.cibuildwheel.windows.config-settings]
-cmake.define.Boost_INCLUDE_DIR="./boost_1_74_0/boost_1_74_0"
+# [tool.cibuildwheel.windows.config-settings]
+# cmake.define.Boost_INCLUDE_DIR="./boost_1_74_0/boost_1_74_0"
 
 [tool.cibuildwheel.linux]
 before-all = [
