@@ -65,7 +65,9 @@ jobs:
 
     - name: Build and install
       if: runner.os == 'Windows'
-      run: pip install --verbose .[test]
+      run: |
+        Get-ChildItem
+        pip install --verbose .[test]
       env:
         BOOST_ROOT: C:\Users\runneradmin\.nuget\packages\boost\1.74.0
 
