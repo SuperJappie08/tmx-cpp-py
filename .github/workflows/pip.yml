@@ -12,8 +12,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [windows-latest, macos-13, ubuntu-latest]
+        platform: [windows-2022, macos-13, ubuntu-latest]
         python-version: ["3.8", "3.10", "3.12"]
+        include:
+          - os: windows-2022
+            boost_install_dir: D:\
 
     runs-on: ${{ matrix.platform }}
 
@@ -42,10 +45,10 @@ jobs:
 
     - name: Install Dependencies (Windows)
       if: ${{ runner.os == 'Windows' }}
-      run: |
-        # nuget install boost -Version 1.74.0
-        Invoke-Webrequest -Uri https://archives.boost.io/release/1.74.0/source/boost_1_74_0.zip -OutFile boost_1_74_0.zip
-        Expand-Archive boost_1_74_0.zip .\boost_1_74_0
+      # run: |
+      #   # nuget install boost -Version 1.74.0
+      #   Invoke-Webrequest -Uri https://archives.boost.io/release/1.74.0/source/boost_1_74_0.zip -OutFile boost_1_74_0.zip
+      #   Expand-Archive boost_1_74_0.zip .\boost_1_74_0
 
     # - name: Install boost (Windows)
     #   uses: MarkusJx/install-boost@v2.4.5
@@ -61,6 +64,18 @@ jobs:
     #   if: ${{ matrix.platform }} == windows-latest
     #   run:
 
+      uses: MarkusJx/install-boost@v2.5.0
+      id: install-boost
+      with:
+          # REQUIRED: Specify the required boost version
+          # A list of supported versions can be found here:
+          # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
+          boost_version: 1.83.0
+          toolset: msvc
+          boost_install_dir: ${{ matrix.boost_install_dir }}
+          link: static
+          platform_version: 2022
+
     - name: Build and install
       if: runner.os != 'Windows'
       run: pip install --verbose .[test]
@@ -69,8 +84,8 @@ jobs:
       if: runner.os == 'Windows'
       run: pip install --verbose .[test]
       env:
-        # BOOST_ROOT: C:\Users\runneradmin\.nuget\packages\boost\1.74.0
-        Boost_INCLUDE_DIR: ${{ github.workspace }}\boost_1_74_0\boost_1_74_0
+        BOOST_ROOT: ${{ matrix.boost_install_dir }}boost\boost
+        # Boost_INCLUDE_DIR: ${{ github.workspace }}\boost_1_74_0\boost_1_74_0
 
     - name: Test
       run: python -m pytest

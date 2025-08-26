@@ -37,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-13] # , macos-14
+        os: [ubuntu-latest, windows-2022, macos-13] # , macos-14
         arch: [native]
         include:
           - os: ubuntu-latest
@@ -46,7 +46,7 @@ jobs:
             arch: ppc64le
           - os: ubuntu-latest
             arch: s390x
-          - os: windows-latest
+          - os: windows-2022
             boost_install_dir: D:\
 
     steps:
@@ -72,9 +72,11 @@ jobs:
           # REQUIRED: Specify the required boost version
           # A list of supported versions can be found here:
           # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
-          boost_version: 1.74.0
+          boost_version: 1.83.0
+          toolset: msvc
           boost_install_dir: ${{ matrix.boost_install_dir }}
-          # platform_version: ${{ os.version }}
+          link: static
+          platform_version: 2022
 
     - uses: pypa/cibuildwheel@v3.1.4
       env:
