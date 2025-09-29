@@ -65,7 +65,7 @@ jobs:
     #   run: sudo chown runner:admin -R /usr/local
 
     - name: Install boost
-      uses: MarkusJx/install-boost@6d8df42f57de83c5b326b5b83e7b35d650030103
+      uses: MarkusJx/install-boost@8ba8b2fac59ef3d91a838bb4aa53ceabd33d1aa3
       if: ${{ runner.os == 'Windows' }} # || runner.os == 'macOS'
       id: install-boost
       with:
@@ -78,7 +78,7 @@ jobs:
           link: static
           platform_version: 2022
 
-    - uses: pypa/cibuildwheel@v3.1.4
+    - uses: pypa/cibuildwheel@v3.2.0
       env:
         CIBW_ARCHS_MACOS: ${{ matrix.arch }}
         CIBW_ARCHS_LINUX: ${{ matrix.arch }}
@@ -125,7 +125,7 @@ jobs:
     if: github.event_name == 'release' && github.event.action == 'published'
 
     steps:
-    - uses: actions/setup-python@v5
+    - uses: actions/setup-python@v6
       with:
         python-version: "3.x"
 
