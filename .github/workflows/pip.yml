@@ -21,11 +21,11 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         submodules: true
 
-    - uses: actions/setup-python@v5
+    - uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -64,7 +64,7 @@ jobs:
     #   if: ${{ matrix.platform }} == windows-latest
     #   run:
 
-      uses: MarkusJx/install-boost@6d8df42f57de83c5b326b5b83e7b35d650030103
+      uses: MarkusJx/install-boost@8ba8b2fac59ef3d91a838bb4aa53ceabd33d1aa3
       id: install-boost
       with:
           # REQUIRED: Specify the required boost version
